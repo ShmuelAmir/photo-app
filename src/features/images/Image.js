@@ -18,25 +18,27 @@ function Image({ image }) {
             addToTagAraay('favorite', image)
             : removeFromTagAraay('favorite', image);
     }
+
+    const tagArr = getArrayFromStorage('tags');
+    // determine the current tag of the image
+    let currVal = 'all';
+    for (let i = 0; i < tagArr.length; i++){
+        if (Boolean(getArrayFromStorage(tagArr[i]).find(item => item.link === image.link))) {
+            currVal = tagArr[i];
+            break;
+        }
+    }
+    const [value, setValue] = useState(currVal);
     
     // toggle an image in and out from tag
-    const toggleTag = (tag, prevTag) => {
-        if (prevTag !== 'all') {
-            removeFromTagAraay(prevTag, image);
+    const toggleTag = (tag) => {
+        if (value !== 'all') {
+            removeFromTagAraay(value, image);
         }
         if (tag !== 'all') {
             addToTagAraay(tag, image);
         }
-    }
-
-    // determine the current tag of the image
-    const tagArr = getArrayFromStorage('tags');
-    let initVal = 'all';
-    for (let tag in tagArr){
-        if (Boolean(getArrayFromStorage(tag).find(item => item.link === image.link))) {
-            initVal = tag;
-            break;
-        }
+        setValue(tag);
     }
 
     return (
@@ -71,7 +73,7 @@ function Image({ image }) {
                     exportFile={
                         () => Promise.resolve(getDataFromURL(image.link))
                     } />
-                    <TagsMenu checkFunction={toggleTag} initVal={initVal}/>
+                    <TagsMenu handleChange={toggleTag} value={value}/>
                 </CardActions>
             </Card>
         </Grid>

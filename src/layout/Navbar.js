@@ -1,14 +1,18 @@
 import * as React from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { Box, AppBar, Toolbar, Typography, Stack } from '@mui/material'
 import { PhotoCamera } from '@mui/icons-material'
 import Actions from '../componnets/Actions'
+import { clearAll } from '../features/images/imageSlice'
 
 function Navbar() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleClick = () => {
-    navigate('/');
+    dispatch(clearAll());
+    navigate('photo-app/');
   }
 
   return (

@@ -3,16 +3,9 @@ import { FormControlLabel, Button, Menu, MenuItem, RadioGroup, Radio } from '@mu
 import { Tag } from '@mui/icons-material';
 import { getArrayFromStorage } from '../app/storageFunctions';
 
-function TagsMenu({ checkFunction, initVal }) {
-  const [value, setValue] = useState(initVal);
+function TagsMenu({ handleChange, value }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const options = getArrayFromStorage('tags');
-
-  // call the checkFunction when the selection changes
-  const handleChange = (e) => {
-    checkFunction(e.target.value, value);
-    setValue(e.target.value);
-  }
 
   return (
     <>
@@ -26,7 +19,7 @@ function TagsMenu({ checkFunction, initVal }) {
       >
         <RadioGroup
         value={value}
-        onChange={handleChange}>
+        onChange={(e) => { handleChange(e.target.value); }}>
           {options.map((option) => (
             <MenuItem key={option}>
               <FormControlLabel 

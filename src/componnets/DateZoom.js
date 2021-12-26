@@ -13,7 +13,7 @@ function DateZoom() {
 
     const handleClick = (e) => {
         handleClose();
-        navigate(`/date/${e.target.innerText}`);
+        navigate(`photo-app/date/${e.target.innerText}`);
     }
 
     return (

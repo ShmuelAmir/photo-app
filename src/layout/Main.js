@@ -10,17 +10,18 @@ function Main() {
         <Stack 
         bgcolor='#EAEEF3' 
         spacing={2} 
-        alignItems='center' 
+        alignItems='center'
         mt={7} 
-        p={5}>    
+        p={5}
+        minHeight={'100vh'}>    
             <Routes>
-                <Route path="/" element={
+                <Route path="photo-app/" element={
                     <>
                         <SearchForm /> 
                         <ImageList />
                     </>
                 } />
-                <Route path="date/:dateMonthYear" element={<ImageDate />} />
+                <Route path="photo-app/date/:dateMonthYear" element={<ImageDate />} />
             </Routes>
         </Stack>
     )

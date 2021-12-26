@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { initialImages } from '../../app/initialImages'
 import { baseUrl, generateRandomStringDate } from './imageApi'
 
 export const fetchAsyncImages = createAsyncThunk(
@@ -16,9 +15,11 @@ export const fetchAsyncImages = createAsyncThunk(
 );
 
 const initialState = {
-  images: [...initialImages],
-  lastResult: [...initialImages],
-  status: null
+  images: [],
+  lastResult: [],
+  status: null,
+  favorite: true,
+  initTag: 'all'
 };
 
 export const imageSlice = createSlice({
@@ -30,8 +31,21 @@ export const imageSlice = createSlice({
     },
     setLastResult(state, action) {
       state.lastResult = action.payload;
+    },
+    setFavorite(state, action) {
+      state.favorite = action.payload;
+    },
+    setInitTag(state, action) {
+      state.initTag = action.payload;
+    },
+    clearAll(state) {
+      state.images = [];
+      state.lastResult = [];
+      state.favorite = true;
+      state.initTag = 'all';
     }
   },
+
   extraReducers: {
     [fetchAsyncImages.pending]: (state) => {
       return {
@@ -56,8 +70,10 @@ export const imageSlice = createSlice({
   }
 });
 
-export const { setInput, setImages, setLastResult } = imageSlice.actions;
+export const { setInput, setImages, setLastResult, setFavorite, setInitTag, clearAll } = imageSlice.actions;
 export const getStatus = (state) => state.image.status;
 export const getImages = (state) => state.image.images;
 export const getLastResult = (state) => state.image.lastResult;
+export const getFavorite = (state) => state.image.favorite;
+export const getInitTag = (state) => state.image.initTag;
 export default imageSlice.reducer;
