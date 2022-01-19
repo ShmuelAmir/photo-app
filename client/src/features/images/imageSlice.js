@@ -1,16 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import axios from 'axios'
-import { baseUrl, generateRandomStringDate } from './imageApi'
+import { getImagesByTerm } from './imageApi';
 
 export const fetchAsyncImages = createAsyncThunk(
   'image/fetchAsyncImages',
-  async (input) => {
-    const response = await axios.get(baseUrl + input);
-    return response.data.items.map(item => ({
-      title: item.title,
-      link: item.link,
-      date: generateRandomStringDate()
-    }));
+  async (searchTerm) => {
+    const responseJson = await getImagesByTerm(searchTerm);
+
+    return responseJson;
   }
 );
 
@@ -54,6 +50,7 @@ export const imageSlice = createSlice({
       }
     },
     [fetchAsyncImages.fulfilled]: (state, action) => {
+      console.log(action.payload)
       return {
         ...state,
         images: action.payload, 

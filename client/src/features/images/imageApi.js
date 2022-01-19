@@ -1,7 +1,16 @@
-const KEY = "AIzaSyCtHHv1TEIlus2fYwOR_ZdB4P3y-MnEm4o";
-const CX = "2baf5dc630067a92c&cx=2baf5dc630067a92c";
+const API_URL = process.env.REACT_APP_API_URL;
 
-export const baseUrl = `https://www.googleapis.com/customsearch/v1?key=${KEY}&cx=${CX}&searchType=image&imgSize=medium&q=`
+/**
+ * get the images from the api
+ * @param {*} searchTerm The term to search
+ * @returns images in json format
+ */
+export const getImagesByTerm = async (searchTerm) => {
+    const response = await fetch(`${API_URL}?q=${searchTerm}`);
+    const responseJson = await response.json();
+
+    return responseJson;
+}
 
 /**
  * get an image for download 
@@ -13,15 +22,3 @@ export const getDataFromURL = (url) => new Promise((resolve) => {
         .then(data => { resolve(data) })
         .catch(err => { console.error(err) });
 });
-
-/**
- * generate a random date in the last years
- * @returns string represet the date
- */
-export const generateRandomStringDate = () => {
-    let day = Math.random() * 29;
-    let month = Math.random() * 11;
-    let year = Math.random() * (2021 - 2000) + 2000;
-
-    return new Date(year, month, day).toString();
-}
